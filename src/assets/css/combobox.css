@@ -1,0 +1,41 @@
+
+.combobox{
+    height: 50px;
+    position: static;
+    z-index: 9999;
+}
+
+
+.input-combobox{
+    width: 90%;
+    padding: 8px;
+    border-width: 1px 0px 1px 1px;
+    border-style: solid;
+    border-color: silver;
+    border-radius: 4px 0px 0px 4px;
+}
+
+.arrow-combobox{
+    border-width: 1px 1px 1px 0px;
+    border-style: solid;
+    border-color: silver;
+    text-align: center;
+    padding: 6px;
+    border-radius: 0px 4px 4px 0px;
+    width: 10%;
+}
+
+.arrow-combobox:hover{
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.line-input-combobox
+{
+    display: flex;
+    text-align: center;
+}
+
+.inValid{
+    border: 1px solid red !important;
+}
