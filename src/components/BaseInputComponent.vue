@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import validateRules from '../js/validateRules.js';
+
 export default {
     name: 'BaseInputComponent',
     mounted(){
@@ -23,7 +25,14 @@ export default {
         validateSelf()
         {
             let me = this;
-            
+            let errors = validateRules(me.infoValidate());
+            if(errors && errors.length > 0)
+            {
+                //bật cờ invalid cho component
+                me.isValid = false;
+            }
+            else
+                me.isValid = true;
         }
     },
     data()

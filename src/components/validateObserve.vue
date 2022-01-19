@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import validateRules from '../js/validateRules.js';
+
 export default {
     name: 'validateObserve',
     methods:{
@@ -23,52 +25,38 @@ export default {
                 let componentValidate = validateComponentArr[i];
                 let inforValidate = componentValidate.infoValidate();
                 // kiểm tra tính hợp lệ
-                let errorsComponet = me.validateRules(inforValidate);
+                let errorsComponet = validateRules(inforValidate);
 
                 if(errorsComponet && errorsComponet.length > 0)
                 {
                     //bật cờ invalid cho component
                     componentValidate.$data.isValid = false;
 
-                    errorList.concat(inforValidate);
+                    errorList.push(inforValidate);
                 }
+                //tắt cờ invalid cho component
+                else
+                    componentValidate.$data.isValid = true;
             }
 
+            debugger;
             //focus vào input đầu tiên bị lỗi
-
+            if(errorList.length > 0)
+                 me.focusFirstError(errorList);
 
             return errorList.length === 0;
         },
 
-        // thực hiển kiểm tra theo rules
-        validateRules(infoValidate)
+        focusFirstError(errorList)
         {
+            debugger;
             let me = this;
-            infoValidate.errorsComponet = [];
-            let rules = infoValidate.rules.split("|");
-            for(let i = 0; i < rules.length;i++)
+            let firstEleError = errorList[0];
+            if(firstEleError)
             {
-                let isValid = true;
-                switch(rules[i])
-                {
-                    case "required":
-                        isValid = me.required(infoValidate.valueValidate);
-                        break;
-                    default:
-                        break;    
-
-                }
-
-                if(!isValid)
-                    infoValidate.errorsComponet.push(rules[i]);
+                firstEleError.elementPrimary.focus();
             }
-
-            return infoValidate.errorsComponet;
-        },
-
-        required(valueValidate){
-            return valueValidate !== null && valueValidate !== undefined && valueValidate !== "";
-        },
+        }
     },
     data(){
         return {

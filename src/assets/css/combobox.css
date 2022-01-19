@@ -13,6 +13,7 @@
     border-style: solid;
     border-color: silver;
     border-radius: 4px 0px 0px 4px;
+    outline: none;
 }
 
 .arrow-combobox{
@@ -26,8 +27,8 @@
 }
 
 .arrow-combobox:hover{
-    border: 1px solid black;
-    cursor: pointer;
+    border: 2px solid black !important;
+    cursor: pointer !important;
 }
 
 .line-input-combobox
@@ -36,6 +37,15 @@
     text-align: center;
 }
 
-.inValid{
-    border: 1px solid red !important;
+.inValid-input{
+    border-color: red !important;
+    border-width: 2px 0px 2px 2px !important;
+    border-style: solid !important;
 }
+
+.inValid-arrow{
+    border-color: red !important;
+    border-width: 2px 2px 2px 0px !important;
+    border-style: solid !important;
+}
+

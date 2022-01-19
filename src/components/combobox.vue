@@ -3,12 +3,18 @@
         <div class="line-input-combobox">
             <input 
                 type="text" 
-                :class="['input-combobox', !isValid ? 'inValid' : '']" 
+                :class="['input-combobox', !isValid ? 'inValid-input' : '']" 
                 v-model="valueSearch" 
                 @input="inputEvent"
                 @blur="blurEvent"
+                @keyup.enter="enterEvent"
+                @keyup.up="changeSelectedItemInDropDown"
+                @keyup.down="changeSelectedItemInDropDown"
             >
-            <div class="arrow-combobox" @click="TurnOnOffDropDownFunc()">
+            <div 
+                :class="['arrow-combobox' , !isValid ? 'inValid-arrow' : '']" 
+                @click="TurnOnOffDropDownFunc()"
+            >
                 <i class="fas fa-chevron-down"></i>
             </div>
         </div>
@@ -76,6 +82,7 @@ export default {
                     me.showDropDown = false;
                     me.valueSearch = value[me.displayField];
                     me.valueResult = value[me.valueField];
+                    me.validateSelf();
                 },
                 input: function(value,index)
                 {
@@ -113,6 +120,12 @@ export default {
                     if(me.dataStore)
                     {
                         let ObjectSelect = me.dataStore.find(ele => {return ele.displayField.toLowerCase() === me.valueSearch.toLowerCase();});
+                        // case tn để tránh validate khi chưa focus, giá trị không đổi => không validate
+                        if((!ObjectSelect && !me.valueResult) || (ObjectSelect && me.valueResult === ObjectSelect[me.valueField]))
+                        {
+                            me.showDropDown = false;
+                            return;
+                        }
                         if(ObjectSelect)
                         {
                             me.valueResult = ObjectSelect[me.valueField];
@@ -120,7 +133,12 @@ export default {
                             me.$emit('change', ObjectSelect);
                         }
                         else
+                        {
                             me.valueResult = null;
+                            me.$emit('input', null);
+                            me.$emit('change', null);
+                        }
+                        me.validateSelf();
                     }
                     me.showDropDown = false;
                 }
@@ -135,17 +153,31 @@ export default {
         {
             let me = this;
         },
+        enterEvent()
+        {
+            let me = this;
+            me.$children[0].selectItem();
+        },
+        changeSelectedItemInDropDown(e)
+        {
+            let me = this;
+            if(e)
+            {
+                me.$children[0].changeIndexSelectedItem(e);
+            }
+        },
         TurnOnOffDropDownFunc()
         {
             let me = this;
             me.showDropDown = !me.showDropDown;
+            me.$el.childNodes[0].childNodes[0].focus();
         }
     },
     data(){
         return {
             valueResult: null,
             valueSearch: '',
-            showDropDown: false
+            showDropDown: false,
         };
     }
 
