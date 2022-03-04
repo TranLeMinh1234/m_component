@@ -39,7 +39,6 @@ export default {
                     componentValidate.$data.isValid = true;
             }
 
-            debugger;
             //focus vào input đầu tiên bị lỗi
             if(errorList.length > 0)
                  me.focusFirstError(errorList);
@@ -49,7 +48,6 @@ export default {
 
         focusFirstError(errorList)
         {
-            debugger;
             let me = this;
             let firstEleError = errorList[0];
             if(firstEleError)
